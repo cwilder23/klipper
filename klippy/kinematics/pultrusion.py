@@ -5,6 +5,48 @@
 #
 # This file may be distributed under the terms of the GNU GPLv3 license.
 #
+"""
+TODO: Move this text to a markdown file
+
+**Issues**
+FIXME: MCU crashes when setting the hot end temperature to 50C. The error message is "ADC out of range"
+FIXME: Unable to control the extruder fan
+
+**Kinematics**
+TODO: Add constant rotation for the extruder stepper
+
+**Command and control**
+TODO: Add custom gcode to toggle extruder stepper rotation, set speed, velocity, direction; this is for constant rotation
+TODO: Add custom gcode to toggle heater
+TODO: Add custom gcode to start/stop pultrusion (main op); spool rotation, heater, and fan
+
+**Stability**
+TODO: Figure out correction coef for stepper kinematics.
+TODO: Figure out correction coef for heater
+TODO: Get the gearbox ratio and the microsteps for my stepper
+TODO: Figure out optimal pultrusion settings: motor, heater(200C), and fan
+
+------------------------------------------------------------------------------------------------
+What to add to PultrusionKinematics to make the Polymake Filaminter work
+------------------------------------------------------------------------------------------------
+ - Add default `trapq` definition; trapazoid stepper velocity/acceleration pattern
+ - Is a `chelper` file needed for this device and for what?
+
+------------------------------------------------------------------------------------------------
+Ideas
+------------------------------------------------------------------------------------------------
+ - Physics (additional metrics)
+    - pull strength
+    - material stretch
+    - filament production rate
+ - Quality control
+    - Measure and track filament diameter
+ - Dual hotends
+ - filament winder
+ - hopper & grinder for recycling old prints
+ - laythe-like bottle cutter
+
+"""
 
 class PultrusionKinematics:
     def __init__(self, toolhead, config):
@@ -18,6 +60,8 @@ class PultrusionKinematics:
     def home(self, homing_state):
         pass
     def check_move(self, move):
+        """ Verify if the move is valid. Any error will prevent further processing
+        """
         pass
     def get_status(self, eventtime):
         return {
@@ -27,4 +71,4 @@ class PultrusionKinematics:
         }
 
 def load_kinematics(toolhead, config):
-    return NoneKinematics(toolhead, config)
+    return PultrusionKinematics(toolhead, config)
